@@ -1,0 +1,40 @@
+body {
+    font-family:'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+#board {
+    background-color: lightgray;
+    border-bottom: 1px solid black;
+}
+
+/* Overlay images */
+.hidden { display: none; }
+#dino-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* allow clicks only on reset image which overrides */
+    z-index: 120;
+}
+#game-over-img {
+    max-width: 320px;
+    width: 60%;
+    height: auto;
+    pointer-events: none;
+    transform: translateY(-10%);
+}
+#reset-img {
+    margin-top: 12px;
+    max-width: 160px;
+    width: 22%;
+    height: auto;
+    cursor: pointer;
+    pointer-events: auto; /* clickable */
+}

@@ -1,0 +1,104 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(189, 140, 235);
+}
+h1{
+    color: white;
+    font-size: 42px;
+    /* margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); */
+}
+header{
+    padding: 50px 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+form{
+    max-width: 700px;
+
+}
+form img{
+    width: 20px;
+    height: auto;
+}
+form input{
+    padding: 10px 20px;
+    width: 500px;
+
+}
+form button{
+    padding: 10px 20px;
+    background-color: white;
+    border: none;
+    width: 150px;
+    cursor: pointer;
+}
+form button:hover{
+    background-color: rgb(0, 128, 122);
+    color: white;
+    transform: scale(1.05);
+}
+.games-grid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.game{
+    width: 300px;
+    height: 230px;
+    margin: 20px;
+    background-color: rgb(0, 128, 122);
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+    align-items: center;
+}
+.game:hover{
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* iframe preview used as a background inside a .game tile */
+.game iframe.preview-mini{
+    position: absolute;
+    /* smaller inset preview inside the tile */
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
+    height: calc(100% - 24px);
+    border-radius: 8px;
+    z-index: 0;
+    opacity: 0.98;
+    pointer-events: none; /* allow clicks to pass through to the .game element */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    zoom: 25%;    /*popravi*/
+}
+
+/* ensure label/children sit above the iframe preview */
+.game > *:not(iframe.preview-mini){
+    position: relative;
+    z-index: 1;
+}
+
+/* message shown when no games match the search */
+#no-results{
+    margin-top: 20px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}

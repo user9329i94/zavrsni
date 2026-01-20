@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+#board {
+    height: 540px;
+    width: 630px;
+    background-color: blue;
+    border: 10px solid navy;
+    
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile {
+    height: 70px;
+    width: 70px;
+    margin: 5px;
+
+    /* Circle */
+    background-color: white;
+    border-radius: 50%;
+    border: 5px solid navy;
+}
+
+.red-piece {
+    background-color: red;
+}
+
+.yellow-piece {
+    background-color: yellow;
+}
+
+/* win overlay */
+#win-overlay.hidden { display: none; }
+#win-overlay{
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+.win-content{
+    background: #fff;
+    color: #000;
+    padding: 20px 26px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 220px;
+}
+.win-content p{ 
+    font-size: 18px; 
+    margin: 0 0 12px 0; 
+}
+.win-content button{ 
+    padding: 8px 14px; 
+    cursor: pointer; 
+    border: lightgray solid 1px;
+    background-color: beige;
+}
+.win-content button:hover{
+    background-color: lightgray;
+}

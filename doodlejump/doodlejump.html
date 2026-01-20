@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport", content="width=device-width, initial-scale=1.0">
+        <title>Doodle Jump</title>
+        <link rel="stylesheet" href="doodlejump.css">
+        <script src="doodlejump.js"></script>
+    </head>
+    <body>
+        <canvas id="board"></canvas>
+
+        <!-- Controls -->
+        <div id="dj-controls">
+            <button id="all-scores-btn">All Scores</button>
+        </div>
+
+        <!-- Game over modal -->
+        <div id="game-over-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Game Over</h2>
+                <p id="final-score">Score: 0</p>
+                <div class="modal-actions">
+                    <button id="dj-new">New Game</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scores history modal -->
+        <div id="scores-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>All Scores</h2>
+                <ul id="scores-list"></ul>
+                <div class="modal-actions">
+                    <button id="close-scores">Close</button>
+                    <button id="clear-scores">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+

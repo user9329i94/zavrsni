@@ -1,0 +1,34 @@
+body {
+    text-align: center;
+    overflow: hidden;
+}
+
+#board {
+    background-color: black;
+}
+
+/* game over overlay */
+#game-over.hidden{ display: none; }
+#game-over{
+    position: fixed;
+    inset: 0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+.game-over-content{
+    background: #fff;
+    color: #000;
+    padding: 24px 32px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 240px;
+}
+.game-over-content p{ font-size: 20px; margin-bottom: 12px; }
+.game-over-content button{
+    padding: 10px 18px;
+    font-size: 16px;
+    cursor: pointer;
+}

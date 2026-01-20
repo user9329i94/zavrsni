@@ -1,0 +1,146 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+body {
+  background-color: #47a54e;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%233a2e32' fill-opacity='0.4'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  box-sizing: border-box;
+}
+
+.active {
+  background-color: #fff !important;
+  background-image: none !important;
+  text-align: center !important;
+
+  color: #000 !important;
+  transform: rotateY(360deg) !important;
+}
+
+.matched {
+  opacity: 0 !important;
+   visibility: hidden;
+}
+
+.easy {
+  width: 500px;
+  margin: 200px auto;
+}
+
+.medium {
+  width: 500px;
+  margin: 150px auto;
+}
+
+.hard {
+  width: 600px;
+  margin: 110px auto;
+}
+
+.extreme {
+  width: 800px;
+  margin: 100px auto;
+}
+
+#card {
+  width: 80px;
+  height: 120px;
+  font-size: 40px;
+  float: left;
+  text-align: center;
+
+  color: #c12d2d;
+  background-color: #c12d2d;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%233a2e32' fill-opacity='0.9'%3E%3Cpath fill-rule='evenodd' d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/svg%3E");
+  margin: 10px;
+  line-height: 120px;
+  border-radius: 3px;
+  border: 2px solid #3a2e32;
+  text-align: left;
+
+  box-shadow: 0 5px 10px #000;
+
+  perspective: 1500px;
+  -moz-perspective: 1500px;
+
+  transform: rotateY(180deg);
+  transition: transform 0.7s;
+
+  &:hover {
+    color: #a32626;
+    background-color: #a32626;
+    cursor: pointer;
+  }
+}
+
+.hard #card {
+  width: 70px;
+  height: 95px;
+  font-size: 35px;
+  margin: 8px;
+  line-height: 95px;
+}
+
+.extreme #card {
+  width: 80px;
+  height: 105px;
+  font-size: 30px;
+  margin: 6px;
+  line-height: 85px;
+}
+
+#game-board{
+  margin: 100px auto;  
+}
+
+#settings-box {
+  background-color: #000000;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='1' viewBox='0 0 40 1' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v1H0z' fill='%23195437' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+  position: absolute;
+  bottom: 0;
+  right:0;
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+
+  button {
+    &:hover {
+      background-color: #1c975b;
+      cursor: pointer;
+    }
+    &-active {
+      background-color: #1d744a;
+    }
+  }
+}
+
+.btn {
+  display: inline-block;
+  width: 80px;
+  height: 30px;
+  border: none;
+  background-color: #fff;
+}
+
+#info-box {
+  font-family: "Bebas Neue", cursive;
+  font-size: 20px;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  color: #fff;
+  top: 0;
+  text-align: center;
+  padding: 10px;
+
+  background-color: #3a1111;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='1' viewBox='0 0 40 1' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v1H0z' fill='%23541919' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+
+  button:hover {
+    background-color: #d7d7d7;
+    cursor: pointer;
+  }
+}

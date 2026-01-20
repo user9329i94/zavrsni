@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Black Jack</title>
+        <link rel="stylesheet" href="blackjack.css">
+        <script src="blackjack.js"></script>
+    </head>
+
+    <body>
+        <h2>Dealer: <span id="dealer-sum"></span></h2>
+        <div id="dealer-cards">
+            <img id="hidden" src="./cards/BACK.png">
+        </div>
+
+        <h2>You: <span id="your-sum"></span></h2>
+        <div id="your-cards"></div>
+
+        <br>
+        <button id="hit">Hit</button>
+        <button id="stay">Stay</button>
+
+        <!-- Modal shown when a game finishes -->
+        <div id="win-modal" class="hidden">
+            <div class="modal-content">
+                <h3 id="modal-message">You Win!</h3>
+                <p>Dealer: <span id="modal-dealer-sum"></span></p>
+                <p>You: <span id="modal-your-sum"></span></p>
+                <div style="margin-top:12px; display:flex; gap:10px; justify-content:center;">
+                    <button id="modal-new">New Game</button>
+                    <button id="modal-close">Close</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
