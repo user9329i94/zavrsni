@@ -56,12 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // inject small previews into all tiles (uses onclick url when present)
-    injectMiniPreviews();
 });
 // Inject small, non-interactive iframe previews into all .game tiles.
-// It prefers the tile's onclick URL (openGame('...')) and falls back to known mappings.
-function injectMiniPreviews(){
+// (disabled) live previews removed
+function injectMiniPreviews(){ return;
     const games = document.querySelectorAll('.game');
     games.forEach(g => {
         // avoid duplicate

@@ -5,7 +5,8 @@
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(189, 140, 235);
+    /* background-color: rgb(189, 140, 235); */
+    background-color: rgb(8, 10, 53);
 }
 h1{
     color: white;
@@ -44,7 +45,7 @@ form button{
     cursor: pointer;
 }
 form button:hover{
-    background-color: rgb(0, 128, 122);
+    background-color: rgb(118, 120, 172);
     color: white;
     transform: scale(1.05);
 }
@@ -57,43 +58,32 @@ form button:hover{
     width: 300px;
     height: 230px;
     margin: 20px;
-    background-color: rgb(0, 128, 122);
+    /* background-color: rgb(141, 143, 192); */
+    background-color: rgb(22, 32, 78);
     border: 2px solid black;
-    display: flex;
+    border-radius: 20px;
+    display: grid;
     justify-content: center;
     cursor: pointer;
-    font-size: 24px;
     color: white;
     align-items: center;
+}
+.game img{
+    width: 160px;
+    height: auto;
+    object-fit: contain;
+}
+.game p{
+    text-align: center;
+    font-size: 24px;
+    margin: 0;
 }
 .game:hover{
     transform: scale(1.05);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* iframe preview used as a background inside a .game tile */
-.game iframe.preview-mini{
-    position: absolute;
-    /* smaller inset preview inside the tile */
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    width: calc(100% - 24px);
-    height: calc(100% - 24px);
-    border-radius: 8px;
-    z-index: 0;
-    opacity: 0.98;
-    pointer-events: none; /* allow clicks to pass through to the .game element */
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    zoom: 25%;    /*popravi*/
-}
-
-/* ensure label/children sit above the iframe preview */
-.game > *:not(iframe.preview-mini){
-    position: relative;
-    z-index: 1;
-}
+/* iframe preview removed — games are no longer rendered as live background previews */
 
 /* message shown when no games match the search */
 #no-results{

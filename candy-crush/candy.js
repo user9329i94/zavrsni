@@ -3,6 +3,7 @@ var board = [];
 var rows = 9;
 var columns = 9;
 var score = 0;
+let processing = false;
 // var lives = 3;
 // var gameActive = true;
 
@@ -14,15 +15,15 @@ window.onload = function() {
     startGame();
 
     //1/10th of a second
-    window.setInterval(function(){
-        crushCandy();
-        slideCandy();
-        generateCandy();
-    }, 100);
-        // const newBtn = document.getElementById('new-game-btn');
-        // if(newBtn){
-        //     newBtn.addEventListener('click', resetGame);
-        // }
+    // window.setInterval(function(){
+    //     crushCandy();
+    //     slideCandy();
+    //     generateCandy();
+    // }, 100);
+    const newBtn = document.getElementById('new-game-btn');
+    if(newBtn){
+        newBtn.addEventListener('click', resetGame);
+    }
 }
 
 function randomCandy() {
@@ -55,7 +56,6 @@ function startGame() {
     }
 
     // update HUD
-    updateLivesDisplay();
     document.getElementById("score").innerText = score;
 
     console.log(board);
@@ -84,6 +84,7 @@ function dragDrop() {
     otherTile = this;
 }
 
+/*
 function dragEnd() {
 
     if (currTile.src.includes("blank") || otherTile.src.includes("blank")) {
@@ -123,6 +124,58 @@ function dragEnd() {
         }
     }
 }
+*/
+function dragEnd() {
+
+    if (!otherTile) return;
+    if (currTile.src.includes("blank") || otherTile.src.includes("blank")) return;
+
+    let currCoords = currTile.id.split("-");
+    let r = parseInt(currCoords[0]);
+    let c = parseInt(currCoords[1]);
+
+    let otherCoords = otherTile.id.split("-");
+    let r2 = parseInt(otherCoords[0]);
+    let c2 = parseInt(otherCoords[1]);
+
+    let isAdjacent =
+        (r == r2 && Math.abs(c - c2) == 1) ||
+        (c == c2 && Math.abs(r - r2) == 1);
+
+    if (!isAdjacent) return;
+
+    // swap
+    swap(currTile, otherTile);
+
+    // ako nema matcha → vrati nazad
+    if (!checkValid()) {
+        setTimeout(() => swap(currTile, otherTile), 200);
+        return;
+    }
+
+    // ako ima match → obradi potez
+    processBoard();
+}
+function swap(a, b){
+    let temp = a.src;
+    a.src = b.src;
+    b.src = temp;
+}
+function processBoard() {
+    processing = true;
+
+    let interval = setInterval(() => {
+        if (crushThree()) {
+            slideCandy();
+            generateCandy();
+        } else {
+            clearInterval(interval);
+            processing = false;
+        }
+        document.getElementById("score").innerText = score;
+    }, 200);
+}
+
 
 function crushCandy() {
     //crushFive();
@@ -173,7 +226,9 @@ function crushCandy() {
 //     startGame();
 // }
 
+/*
 function crushThree() {
+    let crushed = false;
     //check rows
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns-2; c++) {
@@ -204,6 +259,56 @@ function crushThree() {
         }
     }
 }
+*/
+function crushThree() {
+    let crushed = false;
+
+    // check rows
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns - 2; c++) {
+            let candy1 = board[r][c];
+            let candy2 = board[r][c + 1];
+            let candy3 = board[r][c + 2];
+
+            if (
+                candy1.src === candy2.src &&
+                candy2.src === candy3.src &&
+                !candy1.src.includes("blank")
+            ) {
+                candy1.src = "./images/blank.png";
+                candy2.src = "./images/blank.png";
+                candy3.src = "./images/blank.png";
+                score += 30;
+                crushed = true;
+            }
+        }
+    }
+
+    // check columns
+    for (let c = 0; c < columns; c++) {
+        for (let r = 0; r < rows - 2; r++) {
+            let candy1 = board[r][c];
+            let candy2 = board[r + 1][c];
+            let candy3 = board[r + 2][c];
+
+            if (
+                candy1.src === candy2.src &&
+                candy2.src === candy3.src &&
+                !candy1.src.includes("blank")
+            ) {
+                candy1.src = "./images/blank.png";
+                candy2.src = "./images/blank.png";
+                candy3.src = "./images/blank.png";
+                score += 30;
+                crushed = true;
+            }
+        }
+    }
+
+    return crushed;
+}
+
+
 
 function checkValid() {
     //check rows
@@ -237,7 +342,7 @@ function checkValid() {
 function slideCandy() {
     for (let c = 0; c < columns; c++) {
         let ind = rows - 1;
-        for (let r = columns-1; r >= 0; r--) {
+        for (let r = rows - 1; r >= 0; r--) {
             if (!board[r][c].src.includes("blank")) {
                 board[ind][c].src = board[r][c].src;
                 ind -= 1;
@@ -251,9 +356,27 @@ function slideCandy() {
 }
 
 function generateCandy() {
-    for (let c = 0; c < columns;  c++) {
-        if (board[0][c].src.includes("blank")) {
-            board[0][c].src = "./images/" + randomCandy() + ".png";
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            if (board[r][c].src.includes("blank")) {
+                board[r][c].src = "./images/" + randomCandy() + ".png";
+            }
         }
     }
+}
+
+function resetGame() {
+    // Reset score
+    score = 0;
+    document.getElementById('score').innerText = score;
+    
+    // Clear the board
+    const boardEl = document.getElementById('board');
+    boardEl.innerHTML = '';
+    
+    // Reset board array
+    board = [];
+    
+    // Start new game
+    startGame();
 }
