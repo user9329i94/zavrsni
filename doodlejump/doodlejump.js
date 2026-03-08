@@ -72,6 +72,12 @@ window.onload = function() {
         resetDoodle();
     });
 
+    const viewScoresBtn = document.getElementById('view-scores');
+    if (viewScoresBtn) viewScoresBtn.addEventListener('click', () => {
+        hideGameOverModal();
+        showAllScores();
+    });
+
     const allBtn = document.getElementById('all-scores-btn');
     if (allBtn) allBtn.addEventListener('click', () => {
         showAllScores();
