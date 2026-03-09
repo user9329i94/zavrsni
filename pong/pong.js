@@ -62,6 +62,22 @@ window.onload = function() {
             resetFullGame();
         });
     }
+
+    const viewScoresBtn = document.getElementById('view-scores');
+    if (viewScoresBtn) viewScoresBtn.addEventListener('click', () => {
+        hideWinnerModal();
+        showAllScores();
+    });
+
+    const closeScores = document.getElementById('close-scores');
+    if (closeScores) closeScores.addEventListener('click', () => {
+        hideScoresModal();
+    });
+
+    const clearScoresBtn = document.getElementById('clear-scores');
+    if (clearScoresBtn) clearScoresBtn.addEventListener('click', () => {
+        clearScores();
+    });
 }
 
 function update() {
@@ -184,8 +200,10 @@ function resetGame(direction) {
 function checkWinner() {
     if (player1Score >= 5) {
         showWinnerModal("Player 1 Wins!");
+        saveScoreToHistory(`${player1Score}-${player2Score} Player 1`);
     } else if (player2Score >= 5) {
         showWinnerModal("Player 2 Wins!");
+        saveScoreToHistory(`${player1Score}-${player2Score} Player 2`);
     }
 }
 
@@ -211,4 +229,59 @@ function resetFullGame() {
         velocityX : 1,
         velocityY : 2
     }
+}
+
+// Score history helpers
+function saveScoreToHistory(s){
+    try{
+        const key = 'pong-scores';
+        const raw = localStorage.getItem(key);
+        const arr = raw ? JSON.parse(raw) : [];
+        arr.push({score: s, date: new Date().toISOString()});
+        if(arr.length > 200) arr.splice(0, arr.length - 200);
+        localStorage.setItem(key, JSON.stringify(arr));
+    }catch(e){
+        console.warn('Could not save score', e);
+    }
+}
+
+function getScoreHistory(){
+    try{
+        const raw = localStorage.getItem('pong-scores');
+        return raw ? JSON.parse(raw) : [];
+    }catch(e){
+        return [];
+    }
+}
+
+function showAllScores(){
+    const modal = document.getElementById('scores-modal');
+    const list = document.getElementById('scores-list');
+    if(!modal || !list) return;
+    list.innerHTML = '';
+    const arr = getScoreHistory();
+    arr.sort((a,b)=> new Date(b.date) - new Date(a.date));
+    if(arr.length === 0){
+        const li = document.createElement('li');
+        li.innerText = 'No scores yet';
+        list.appendChild(li);
+    }else{
+        arr.forEach(item => {
+            const li = document.createElement('li');
+            const d = new Date(item.date);
+            li.innerText = `${item.score} — ${d.toLocaleString()}`;
+            list.appendChild(li);
+        });
+    }
+    modal.classList.remove('hidden');
+}
+
+function clearScores(){
+    localStorage.removeItem('pong-scores');
+    showAllScores();
+}
+
+function hideScoresModal(){
+    const modal = document.getElementById('scores-modal');
+    if(modal) modal.classList.add('hidden');
 }

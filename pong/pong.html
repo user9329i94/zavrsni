@@ -10,10 +10,25 @@
 
     <body>
         <canvas id="board"></canvas>
-        <div id="winner-modal" class="hidden">
+        <div id="winner-modal" class="modal hidden">
             <div class="modal-content">
                 <h2 id="winner-text"></h2>
-                <button id="modal-new-btn">New Game</button>
+                <div class="modal-actions">
+                    <button id="modal-new-btn">New Game</button>
+                    <button id="view-scores">View All Scores</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scores history modal -->
+        <div id="scores-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>All Scores</h2>
+                <ul id="scores-list"></ul>
+                <div class="modal-actions">
+                    <button id="close-scores">Close</button>
+                    <button id="clear-scores">Clear All</button>
+                </div>
             </div>
         </div>
     </body>

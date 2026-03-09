@@ -1,6 +1,7 @@
 
 var numSelected = null;
 var tileSelected = null;
+var highlightedDigit = null;
 
 var errors = 0;
 
@@ -211,19 +212,19 @@ function checkWin() {
         const el = document.getElementById(String(i));
         if (el) el.style.pointerEvents = "none";
     }
-    // show styled game over overlay with errors
-    showGameOverOverlay(errors);
+    // show congratulations modal with mistakes
+    showCongratulationsModal(errors);
     return true;
 }
 
-// create and show a centered red "Game over" overlay
-function showGameOverOverlay(errCount) {
+// create and show a centered congratulations modal
+function showCongratulationsModal(mistakes) {
     // remove existing overlay if present
-    const old = document.getElementById("game-over-overlay");
+    const old = document.getElementById("congratulations-modal");
     if (old) old.remove();
 
     const overlay = document.createElement("div");
-    overlay.id = "game-over-overlay";
+    overlay.id = "congratulations-modal";
     overlay.style.position = "fixed";
     overlay.style.top = "0";
     overlay.style.left = "0";
@@ -243,7 +244,7 @@ function showGameOverOverlay(errCount) {
     box.style.boxShadow = "0 6px 24px rgba(0,0,0,0.4)";
 
     const title = document.createElement("div");
-    title.innerText = "GAME OVER";
+    title.innerText = "CONGRATULATIONS";
     title.style.color = "red";
     title.style.fontSize = "64px";
     title.style.fontWeight = "800";
@@ -251,13 +252,13 @@ function showGameOverOverlay(errCount) {
     title.style.marginBottom = "10px";
 
     const info = document.createElement("div");
-    info.innerText = "Errors: " + errCount;
+    info.innerText = "Mistakes: " + mistakes;
     info.style.color = "#333";
     info.style.fontSize = "20px";
     info.style.marginBottom = "18px";
 
     const btn = document.createElement("button");
-    btn.innerText = "Restart";
+    btn.innerText = "New Game";
     btn.style.fontSize = "18px";
     btn.style.padding = "10px 18px";
     btn.style.border = "none";
@@ -355,6 +356,31 @@ function selectNumber(){
     }
     numSelected = this;
     numSelected.classList.add("number-selected");
+    
+    // Highlight all tiles with this number
+    highlightDigitInBoard(numSelected.id);
+}
+
+function highlightDigitInBoard(digit) {
+    // Remove previous highlighting
+    const previousHighlighted = document.querySelectorAll(".tile-highlighted");
+    previousHighlighted.forEach(tile => {
+        tile.classList.remove("tile-highlighted");
+    });
+    
+    if (highlightedDigit === digit) {
+        // If clicking the same number, toggle off
+        highlightedDigit = null;
+    } else {
+        // Highlight all tiles containing this digit
+        highlightedDigit = digit;
+        const allTiles = document.querySelectorAll(".tile");
+        allTiles.forEach(tile => {
+            if (tile.innerText === digit) {
+                tile.classList.add("tile-highlighted");
+            }
+        });
+    }
 }
 
 function selectTile() {
@@ -377,6 +403,19 @@ function selectTile() {
             // increment count for that number and update display
             counts[numSelected.id] = (counts[numSelected.id] || 0) + 1;
             updateNumberDisplay(numSelected.id);
+
+            // ensure this tile stands out immediately
+            this.classList.add("tile-highlighted");
+            // also refresh overall digit highlighting if user selected that digit
+            if (highlightedDigit === numSelected.id) {
+                // re-run to include new tile without toggling off
+                const allTiles = document.querySelectorAll(".tile");
+                allTiles.forEach(tile => {
+                    if (tile.innerText === numSelected.id) {
+                        tile.classList.add("tile-highlighted");
+                    }
+                });
+            }
 
             // check win
             checkWin();
