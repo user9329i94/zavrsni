@@ -2,6 +2,64 @@ function openGame(url){
     window.location.href = url;
 }
 
+let favorites = loadFavorites();
+
+function loadFavorites() {
+    const favs = localStorage.getItem('gameFavorites');
+    return favs ? JSON.parse(favs) : [];
+}
+
+function saveFavorites() {
+    localStorage.setItem('gameFavorites', JSON.stringify(favorites));
+}
+
+function isFavorite(gameName) {
+    return favorites.includes(gameName);
+}
+
+function toggleFavorite(gameName) {
+    if (isFavorite(gameName)) {
+        favorites = favorites.filter(name => name !== gameName);
+    } else {
+        favorites.push(gameName);
+    }
+    saveFavorites();
+}
+
+function showFavorites() {
+    const games = document.querySelectorAll('.game');
+    games.forEach(game => {
+        const nameEl = game.querySelector('p');
+        const name = nameEl ? nameEl.textContent.trim() : '';
+        if (isFavorite(name)) {
+            game.style.display = 'flex';
+        } else {
+            game.style.display = 'none';
+        }
+    });
+    // Handle no results for favorites
+    const visibleCount = Array.from(games).filter(g => getComputedStyle(g).display !== 'none').length;
+    let noRes = document.getElementById('no-results');
+    if (visibleCount === 0) {
+        if (!noRes) {
+            noRes = document.createElement('div');
+            noRes.id = 'no-results';
+            noRes.textContent = 'No favorite games';
+            const grid = document.querySelector('.games-grid');
+            if (grid && grid.parentNode) {
+                grid.parentNode.insertBefore(noRes, grid.nextSibling);
+            } else {
+                document.body.appendChild(noRes);
+            }
+        }
+        noRes.style.display = 'block';
+    } else {
+        if (noRes) {
+            noRes.style.display = 'none';
+        }
+    }
+}
+
 // Filter visible games based on search query (only when Search button is clicked)
 function filterGames(query){
     const q = String(query || '').trim().toLowerCase();
@@ -54,6 +112,52 @@ document.addEventListener('DOMContentLoaded', () => {
             if(!input.value.trim()){
                 filterGames('');
             }
+        });
+    }
+
+    // Add heart buttons to each game
+    const games = document.querySelectorAll('.game');
+    games.forEach(game => {
+        const heartBtn = document.createElement('button');
+        heartBtn.className = 'heart-btn';
+        heartBtn.innerHTML = '♡';
+        heartBtn.style.position = 'absolute';
+        heartBtn.style.top = '10px';
+        heartBtn.style.right = '10px';
+        heartBtn.style.background = 'transparent';
+        heartBtn.style.border = 'none';
+        heartBtn.style.fontSize = '24px';
+        heartBtn.style.cursor = 'pointer';
+        heartBtn.style.color = 'white';
+        game.style.position = 'relative';
+        game.appendChild(heartBtn);
+
+        const nameEl = game.querySelector('p');
+        const gameName = nameEl ? nameEl.textContent.trim() : '';
+        if (isFavorite(gameName)) {
+            heartBtn.innerHTML = '♥';
+            heartBtn.style.color = 'red';
+        }
+
+        heartBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(gameName);
+            if (isFavorite(gameName)) {
+                heartBtn.innerHTML = '♥';
+                heartBtn.style.color = 'red';
+            } else {
+                heartBtn.innerHTML = '♡';
+                heartBtn.style.color = 'white';
+            }
+        });
+    });
+
+    // Event listener for Favorite button
+    const favBtn = document.querySelector('header form button:last-child');
+    if (favBtn && favBtn.textContent.trim() === 'Favorite') {
+        favBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showFavorites();
         });
     }
 });
