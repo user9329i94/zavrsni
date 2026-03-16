@@ -4,18 +4,19 @@ var rows = 4;
 var columns = 4;
 
 window.onload = function() {
-    // wire new game button
     const newBtn = document.getElementById('new-game');
     if (newBtn) newBtn.addEventListener('click', clearSavedGame);
-    // wire all scores button and close button
+    const gameOverNewBtn = document.getElementById('game-over-new-game');
+    if (gameOverNewBtn) gameOverNewBtn.addEventListener('click', () => {
+        closeGameOver();
+        clearSavedGame();
+    });
     const allBtn = document.getElementById('all-scores');
     if (allBtn) allBtn.addEventListener('click', showAllScores);
     const closeBtn = document.getElementById('close-scores');
     if (closeBtn) closeBtn.addEventListener('click', closeScores);
-
     // when the page is closed, record current score into history (avoid duplicates)
     window.addEventListener('beforeunload', function(){ saveScoreToHistory(score); });
-
     // load saved game if present, otherwise start new
     if (!loadGame()) {
         setGame();
@@ -49,7 +50,6 @@ function setGame() {
     // update displayed score and persist initial state
     document.getElementById('score').innerText = score;
     saveGame();
-
 }
 
 // Persist current board & score to localStorage
@@ -166,7 +166,7 @@ function updateTile(tile, num) {
     if (num > 0) {
         tile.innerText = num.toString();
         if (num <= 4096) {
-            tile.classList.add("x"+num.toString());
+            tile.classList.add("x"+num.toString()); //add class based on number for styling (e.g. x2..)
         } else {
             tile.classList.add("x8192");
         }                
@@ -194,10 +194,14 @@ document.addEventListener('keyup', (e) => {
     document.getElementById("score").innerText = score;
     // save after each move
     saveGame();
+    // check if game is over
+    if (isGameOver()) {
+        showGameOver();
+    }
 })
 
 function filterZero(row){
-    return row.filter(num => num != 0); //create new array of all nums != 0
+    return row.filter(num => num != 0);         //create new array of all nums != 0
 }
 
 function slide(row) {
@@ -261,7 +265,6 @@ function slideUp() {
         }
     }
 }
-
 function slideDown() {
     for (let c = 0; c < columns; c++) {
         let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
@@ -312,4 +315,49 @@ function hasEmptyTile() {
         }
     }
     return false;
+}
+
+// Check if the game is over (no empty tiles and no valid moves)
+function isGameOver() {
+    // if there are empty tiles, game is not over
+    if (hasEmptyTile()) {
+        return false;
+    }
+    // Check if any moves are possible
+    // Check horizontal moves
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns - 1; c++) {
+            if (board[r][c] === board[r][c + 1]) {
+                return false; // Can merge horizontally
+            }
+        }
+    }
+    // Check vertical moves
+    for (let c = 0; c < columns; c++) {
+        for (let r = 0; r < rows - 1; r++) {
+            if (board[r][c] === board[r + 1][c]) {
+                return false; // Can merge vertically
+            }
+        }
+    }
+    // No moves possible
+    return true;
+}
+
+// Show game over overlay
+function showGameOver() {
+    const overlay = document.getElementById('game-over-overlay');
+    const finalScore = document.getElementById('final-score');
+    if (overlay && finalScore) {
+        finalScore.textContent = score;
+        overlay.classList.remove('hidden');
+    }
+}
+
+// Close game over overlay
+function closeGameOver() {
+    const overlay = document.getElementById('game-over-overlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+    }
 }
