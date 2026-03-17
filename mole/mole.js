@@ -52,7 +52,6 @@ function setMole() {
     currMoleTile = document.getElementById(num);
     currMoleTile.appendChild(mole);
 }
-
 function setPlant() {
     if (gameOver) {
         return;

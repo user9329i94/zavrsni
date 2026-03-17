@@ -1,4 +1,3 @@
-// ...existing code...
 var board;
 var playerO = "O";
 var playerX = "X";
@@ -86,7 +85,6 @@ function checkWinner() {
             return;
         }
     }
-
     //vertically, check 3 columns
     for (let c = 0; c < 3; c++) {
         if (board[0][c] == board[1][c] && board[1][c] ==  board[2][c] && board[0][c] != ' ') {
@@ -101,7 +99,6 @@ function checkWinner() {
             return;
         }
     }
-
     //diagonally
     if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != ' ') {
         for (let i = 0; i < 3; i++) {
@@ -112,7 +109,6 @@ function checkWinner() {
         showWinOverlay(board[0][0]);
         return;
     }
-
     //anti-diagonally
     if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != ' ') {
         //0-2

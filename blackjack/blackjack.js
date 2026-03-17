@@ -24,7 +24,7 @@ window.onload = function() {
     });
 }
 
-function buildDeck() {   //ovo
+function buildDeck() {   
     let values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
     let types = ["C", "D", "H", "S"];
     deck = [];
@@ -34,10 +34,9 @@ function buildDeck() {   //ovo
             deck.push(values[j] + "-" + types[i]); //A-C -> K-C, A-D -> K-D
         }
     }
-    // console.log(deck);
 }
 
-function shuffleDeck() {   //ovo
+function shuffleDeck() {   
     for (let i = 0; i < deck.length; i++) {
         let j = Math.floor(Math.random() * deck.length); // (0-1) * 52 => (0-51.9999)
         let temp = deck[i];
@@ -53,14 +52,10 @@ function startGame() {
     const yourEl = document.getElementById('your-cards');
     if(dealerEl) dealerEl.innerHTML = '<img id="hidden" src="./cards/BACK.png">';
     if(yourEl) yourEl.innerHTML = '';
-
     hidden = deck.pop();
     dealerSum += getValue(hidden);
     dealerAceCount += checkAce(hidden);
-    // console.log(hidden);
-    // console.log(dealerSum);
     while (dealerSum < 17) {
-        //<img src="./cards/4-C.png">
         let cardImg = document.createElement("img");
         let card = deck.pop();
         cardImg.src = "./cards/" + card + ".png";
@@ -68,8 +63,8 @@ function startGame() {
         dealerAceCount += checkAce(card);
         document.getElementById("dealer-cards").append(cardImg);
     }
-    console.log(dealerSum);
-
+    // Display dealer sum (though hidden card is not revealed yet)
+    document.getElementById("dealer-sum").innerText = dealerSum;
     for (let i = 0; i < 2; i++) {
         let cardImg = document.createElement("img");
         let card = deck.pop();
@@ -78,14 +73,13 @@ function startGame() {
         yourAceCount += checkAce(card);
         document.getElementById("your-cards").append(cardImg);
     }
-
-    console.log(yourSum);
+    yourSum = reduceAce(yourSum, yourAceCount);
+    document.getElementById("your-sum").innerText = yourSum;
     if(!listenersAdded){
         document.getElementById("hit").addEventListener("click", hit);
         document.getElementById("stay").addEventListener("click", stay);
         listenersAdded = true;
     }
-
 }
 
 function hit() {
@@ -100,7 +94,10 @@ function hit() {
     yourAceCount += checkAce(card);
     document.getElementById("your-cards").append(cardImg);
 
-    if (reduceAce(yourSum, yourAceCount) > 21) { //A, J, 8 -> 1 + 10 + 8
+    yourSum = reduceAce(yourSum, yourAceCount);
+    document.getElementById("your-sum").innerText = yourSum;
+
+    if (yourSum > 21) { //A, J, 8 -> 1 + 10 + 8
         canHit = false;
     }
 
@@ -109,10 +106,8 @@ function hit() {
 function stay() {
     dealerSum = reduceAce(dealerSum, dealerAceCount);
     yourSum = reduceAce(yourSum, yourAceCount);
-
     canHit = false;
     document.getElementById("hidden").src = "./cards/" + hidden + ".png";
-
     let message = "";
     if (yourSum > 21) {
         message = "You Lose!";
@@ -130,7 +125,6 @@ function stay() {
     else if (yourSum < dealerSum) {
         message = "You Lose!";
     }
-
     // populate modal with message and both scores
     document.getElementById("dealer-sum").innerText = dealerSum;
     document.getElementById("your-sum").innerText = yourSum;
@@ -157,7 +151,7 @@ function getValue(card) {
     return parseInt(value);
 }
 
-function checkAce(card) {  //netria
+function checkAce(card) {  
     if (card[0] == "A") {
         return 1;
     }
