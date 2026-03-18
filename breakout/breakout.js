@@ -103,7 +103,6 @@ function update() {
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
     context.fillRect(ball.x, ball.y, ball.width, ball.height);
-
     //bounce the ball off player paddle
     if (topCollision(ball, player) || bottomCollision(ball, player)) {
         ball.velocityY *= -1;   // flip y direction up or down
@@ -111,7 +110,6 @@ function update() {
     else if (leftCollision(ball, player) || rightCollision(ball, player)) {
         ball.velocityX *= -1;   // flip x direction left or right
     }
-
     if (ball.y <= 0) { 
         // if ball touches top of canvas
         ball.velocityY *= -1; //reverse direction
@@ -125,7 +123,6 @@ function update() {
         gameOver = true;
         showGameOverModal();
     }
-
     //blocks (draw as stronger blue)
     context.fillStyle = "dodgerblue";
     for (let i = 0; i < blockArray.length; i++) {
@@ -148,14 +145,12 @@ function update() {
             context.fillRect(block.x, block.y, block.width, block.height);
         }
     }
-
     //next level
     if (blockCount == 0) {
         score += 100*blockRows*blockColumns; //bonus points :)
         blockRows = Math.min(blockRows + 1, blockMaxRows);
         createBlocks();
     }
-
     //score
     context.font = "20px sans-serif";
     context.fillText(score, 10, 25);

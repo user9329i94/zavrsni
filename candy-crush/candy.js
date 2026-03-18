@@ -4,22 +4,12 @@ var rows = 9;
 var columns = 9;
 var score = 0;
 let processing = false;
-// var lives = 3;
-// var gameActive = true;
-
 var currTile;
 var otherTile;
 
 
 window.onload = function() {
     startGame();
-
-    //1/10th of a second
-    // window.setInterval(function(){
-    //     crushCandy();
-    //     slideCandy();
-    //     generateCandy();
-    // }, 100);
     const newBtn = document.getElementById('new-game-btn');
     if(newBtn){
         newBtn.addEventListener('click', resetGame);
@@ -63,68 +53,21 @@ function startGame() {
 
 function dragStart() {
     //this refers to tile that was clicked on for dragging
-    // if(!gameActive) return;
     currTile = this;
 }
-
 function dragOver(e) {
     e.preventDefault();
 }
-
 function dragEnter(e) {
     e.preventDefault();
 }
-
 function dragLeave() {
 
 }
-
 function dragDrop() {
     //this refers to the target tile that was dropped on
     otherTile = this;
 }
-
-/*
-function dragEnd() {
-
-    if (currTile.src.includes("blank") || otherTile.src.includes("blank")) {
-        return;
-    }
-
-    let currCoords = currTile.id.split("-"); // id="0-0" -> ["0", "0"]
-    let r = parseInt(currCoords[0]);
-    let c = parseInt(currCoords[1]);
-
-    let otherCoords = otherTile.id.split("-");
-    let r2 = parseInt(otherCoords[0]);
-    let c2 = parseInt(otherCoords[1]);
-
-    let moveLeft = c2 == c-1 && r == r2;
-    let moveRight = c2 == c+1 && r == r2;
-
-    let moveUp = r2 == r-1 && c == c2;
-    let moveDown = r2 == r+1 && c == c2;
-
-    let isAdjacent = moveLeft || moveRight || moveUp || moveDown;
-
-    if (isAdjacent) {
-        let currImg = currTile.src;
-        let otherImg = otherTile.src;
-        currTile.src = otherImg;
-        otherTile.src = currImg;
-
-        let validMove = checkValid();
-        if (!validMove) {
-            let currImg = currTile.src;
-            let otherImg = otherTile.src;
-            currTile.src = otherImg;
-            otherTile.src = currImg;    
-            // // deduct a life on an invalid move
-            // loseLife();
-        }
-    }
-}
-*/
 function dragEnd() {
 
     if (!otherTile) return;
@@ -178,8 +121,6 @@ function processBoard() {
 
 
 function crushCandy() {
-    //crushFive();
-    //crushFour();
     crushThree();
     document.getElementById("score").innerText = score;
 
@@ -188,14 +129,12 @@ function crushCandy() {
 
 function crushThree() {
     let crushed = false;
-
     // check rows
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns - 2; c++) {
             let candy1 = board[r][c];
             let candy2 = board[r][c + 1];
             let candy3 = board[r][c + 2];
-
             if (
                 candy1.src === candy2.src &&
                 candy2.src === candy3.src &&
@@ -209,14 +148,12 @@ function crushThree() {
             }
         }
     }
-
     // check columns
     for (let c = 0; c < columns; c++) {
         for (let r = 0; r < rows - 2; r++) {
             let candy1 = board[r][c];
             let candy2 = board[r + 1][c];
             let candy3 = board[r + 2][c];
-
             if (
                 candy1.src === candy2.src &&
                 candy2.src === candy3.src &&
@@ -230,7 +167,6 @@ function crushThree() {
             }
         }
     }
-
     return crushed;
 }
 
