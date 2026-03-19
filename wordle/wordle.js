@@ -372,4 +372,3 @@ function showEndOverlay(won) {
 
     document.body.appendChild(overlay);
 }
-// ...existing code...

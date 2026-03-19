@@ -175,29 +175,6 @@ function updateNumberDisplay(num) {
         el.classList.remove("number-used");
     }
 }
-
-// helper: check if puzzle solved
-// function checkWin() {
-//     for (let r = 0; r < 9; r++) {
-//         for (let c = 0; c < 9; c++) {
-//             if (boardArr[r][c] === '-') return false;
-//         }
-//     }
-//     // solved
-//     gameOver = true;
-//     // disable digits
-//     for (let i = 1; i <= 9; i++) {
-//         const el = document.getElementById(String(i));
-//         if (el) el.style.pointerEvents = "none";
-//     }
-//     // print errors and end game
-//     alert("Game over! Errors: " + errors);
-//     console.log("Game over. Errors:", errors);
-//     return true;
-// }
-
-// ...existing code...
-
 // helper: check if puzzle solved
 function checkWin() {
     for (let r = 0; r < 9; r++) {

@@ -181,7 +181,6 @@ function draw() {
 function move() {
     pacman.x += pacman.velocityX;
     pacman.y += pacman.velocityY;
-
     //check wall collisions
     for (let wall of walls.values()) {
         if (collision(pacman, wall)) {
@@ -190,7 +189,6 @@ function move() {
             break;
         }
     }
-
     //check ghosts collision
     for (let ghost of ghosts.values()) {
         if (collision(ghost, pacman)) {
@@ -202,11 +200,9 @@ function move() {
             }
             resetPositions();
         }
-
         if (ghost.y == tileSize*9 && ghost.direction != 'U' && ghost.direction != 'D') {
             ghost.updateDirection('U');
         }
-
         ghost.x += ghost.velocityX;
         ghost.y += ghost.velocityY;
         for (let wall of walls.values()) {
@@ -218,7 +214,6 @@ function move() {
             }
         }
     }
-
     //check food collision
     let foodEaten = null;
     for (let food of foods.values()) {
@@ -229,7 +224,6 @@ function move() {
         }
     }
     foods.delete(foodEaten);
-
     //next level
     if (foods.size == 0) {
         loadMap();
@@ -242,7 +236,6 @@ function movePacman(e) {
         // when game is over, wait for user to click New Game button
         return;
     }
-
     if (e.code == "ArrowUp" || e.code == "KeyW") {
         pacman.updateDirection('U');
     }
