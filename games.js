@@ -60,7 +60,6 @@ function showFavorites() {
     }
 }
 
-// Filter visible games based on search query (only when Search button is clicked)
 function filterGames(query){
     const q = String(query || '').trim().toLowerCase();
     const games = document.querySelectorAll('.game');
